@@ -24,7 +24,7 @@ class EmailVerifier
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
             (string) $user->getId(),
-            (string) $user->setPassword()
+            (string) $user->getPassword(),
         );
 
         $context = $email->getContext();
@@ -42,7 +42,11 @@ class EmailVerifier
      */
     public function handleEmailConfirmation(Request $request, Freki $user): void
     {
-        $this->verifyEmailHelper->validateEmailConfirmationFromRequest($request, (string) $user->getId(), (string) $user->setPassword());
+        $this->verifyEmailHelper->validateEmailConfirmationFromRequest(
+            $request,
+            (string) $user->getId(),
+            (string) $user->getPassword()
+        );
 
         $user->setIsVerified(true);
 
